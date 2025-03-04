@@ -5,10 +5,10 @@ erDiagram
         string name
     }
     QUESTIONS {
-        string question
+        string text
     }
     ANSWERS {
-        string answer
+        string text
         bool isCorrect
         bool isAiGenerated
     }
