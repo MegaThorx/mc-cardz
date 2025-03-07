@@ -6,7 +6,7 @@ public interface IRepository<T> where T : IEntity
 
     Task<T> AddAsync(T entity);
 
-    Task<T> FindByIdAsync(int id);
+    Task<T?> FindByIdAsync(int id);
 
     Task<T> UpdateAsync(T entity);
 
