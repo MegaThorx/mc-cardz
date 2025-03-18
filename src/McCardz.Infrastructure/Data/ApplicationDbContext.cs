@@ -1,5 +1,4 @@
 ﻿using McCardz.Domain.Models;
-using McCardz.Infrastructure.Data.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace McCardz.Infrastructure.Data;
@@ -17,7 +16,17 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
-        modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+
+        modelBuilder.Entity<Answer>()
+            .HasOne<Question>()
+            .WithMany()
+            .HasForeignKey(x => x.QuestionId)
+            .HasPrincipalKey(x => x.Id);
+
+        modelBuilder.Entity<Question>()
+            .HasOne<Topic>()
+            .WithMany()
+            .HasForeignKey(x => x.TopicId)
+            .HasPrincipalKey(x => x.Id);
     }
 }
