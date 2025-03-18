@@ -1,6 +1,6 @@
 ﻿namespace McCardz.API.Models;
 
-public class ResponseDTO
+public class ResponseDto
 {
     public string Status { get; set; }
 

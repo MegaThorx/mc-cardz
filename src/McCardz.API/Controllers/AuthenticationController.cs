@@ -18,7 +18,7 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<ResponseDTO>> Register([FromBody]RegisterDTO register)
+    public async Task<ActionResult<ResponseDto>> Register([FromBody]RegisterDto register)
     {
         if (await _userManager.FindByNameAsync(register.Username) != null)
         {
@@ -35,7 +35,7 @@ public class AuthenticationController : ControllerBase
 
         await _userManager.AddPasswordAsync(user, register.Password);
 
-        return new ResponseDTO
+        return new ResponseDto
         {
             Status = "Success",
             Message = "Succesfully registered"

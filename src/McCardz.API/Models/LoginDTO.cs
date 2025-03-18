@@ -2,7 +2,7 @@
 
 namespace McCardz.API.Models;
 
-public class LoginDTO
+public class LoginDto
 {
     [Required(ErrorMessage = "Username is required")]
     public string Username { get; set; }
