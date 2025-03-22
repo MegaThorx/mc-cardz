@@ -4,6 +4,7 @@ import './index.css'
 import Home from "./pages/Home.tsx";
 import TopicsIndex from "./pages/TopicsIndex.tsx";
 import Navigation from "./components/Navigation.tsx";
+import Login from './pages/Login.tsx';
 
 createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
@@ -12,6 +13,7 @@ createRoot(document.getElementById('root')!).render(
             <div className="relative isolate overflow-hidden pt-16">
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/topics" element={<TopicsIndex />} />
                 </Routes>
             </div>
