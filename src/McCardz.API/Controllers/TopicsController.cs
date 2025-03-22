@@ -1,5 +1,6 @@
 ﻿using McCardz.Domain.Models;
 using McCardz.Domain.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
@@ -7,6 +8,7 @@ namespace McCardz.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class TopicsController : ControllerBase
 {
     private readonly ITopicRepository _topicRepository;

@@ -1,12 +1,14 @@
 ﻿using McCardz.Domain.Models;
 using McCardz.Domain.Repositories;
 using McCardz.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace McCardz.API.Controllers;
 
 [ApiController]
 [Route("api/answers")]
+[Authorize]
 public class AnswersController : ControllerBase
 {
     private readonly IAnswerRepository _answerRepository;

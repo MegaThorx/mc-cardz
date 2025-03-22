@@ -1,6 +1,11 @@
 ﻿using McCardz.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace McCardz.API.Controllers;
 
@@ -17,7 +22,7 @@ public class AuthenticationController : ControllerBase
         _configuration = configuration;
     }
 
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<ActionResult<ResponseDto>> Register([FromBody]RegisterDto register)
     {
         if (await _userManager.FindByNameAsync(register.Username) != null)
@@ -40,5 +45,40 @@ public class AuthenticationController : ControllerBase
             Status = "Success",
             Message = "Succesfully registered"
         };
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginDto model)
+    {
+        var user = await _userManager.FindByNameAsync(model.Username);
+        if (user is not null && await _userManager.CheckPasswordAsync(user, model.Password))
+        {
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var authClaims = new List<Claim>
+            {
+                new(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            foreach (var role in userRoles)
+            {
+                authClaims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
+            var authSigninKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["JwtSettings:Secret"]!));
+            var token = new JwtSecurityToken(
+                expires: DateTime.Now.AddMinutes(15),
+                claims: authClaims,
+                signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256)
+            );
+
+            return Ok(new TokenDto
+            {
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+                Expiration = token.ValidTo
+            });
+        }
+
+        return Unauthorized();
     }
 }
