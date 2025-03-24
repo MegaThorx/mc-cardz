@@ -27,7 +27,11 @@ public class AuthenticationController : ControllerBase
     {
         if (await _userManager.FindByNameAsync(register.Username) != null)
         {
-            return BadRequest("Username already taken");
+            return BadRequest(new ResponseDto
+            {
+                Status = "Error",
+                Message = "Username already taken."
+            });
         }
 
         var user = new IdentityUser
@@ -38,8 +42,17 @@ public class AuthenticationController : ControllerBase
             NormalizedEmail = register.Email.ToUpper()
         };
 
-        await _userManager.AddPasswordAsync(user, register.Password);
+        var result = await _userManager.CreateAsync(user, register.Password);
 
+        if (!result.Succeeded)
+        {
+            return BadRequest(new ResponseDto
+            {
+                Status = "Error",
+                Message = string.Join('\n', result.Errors.Select(e => e.Description))
+            });
+        }
+        
         return new ResponseDto
         {
             Status = "Success",
