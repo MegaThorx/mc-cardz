@@ -25,3 +25,9 @@
   <li> ... </li>
 </ul>
 
+## Running the project
+
+### Run migrations
+
+`cd src/McCardz.Infrastructure`
+`dotnet ef database update -s ../McCardz.API`
