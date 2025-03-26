@@ -1,5 +1,5 @@
 ﻿import { useState } from "react";
-import {NavLink} from "react-router";
+import { useNavigate } from "react-router";
 import api from "../api.ts";
 
 export default function ({ }) {
@@ -7,15 +7,13 @@ export default function ({ }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const [isRegistered, setIsRegistered] = useState(false);
+    const navigate = useNavigate();
 
     return <>
-        <h1 className="text-2xl font-medium">Create your account</h1>
+        <h1>Create your account</h1>
 
-        {isRegistered ? <h2 className="text-xl text-green-600">Successfully registered. <NavLink className="underline hover:text-green-700" to="/login">Sign in here.</NavLink></h2> : null}
-        
-        {errorMessage !== '' ? <span className="block text-xl text-red-600">{errorMessage}</span> : null}
-        <form className="mt-4" onSubmit={(event) => {
+        {errorMessage !== '' ? <div className="alert alert-danger" role="alert">{errorMessage}</div> : null}
+        <form className="col-6" onSubmit={(event) => {
             event.preventDefault();
             api.post('/api/auth/register', {
                     username: username,
@@ -24,23 +22,33 @@ export default function ({ }) {
                 })
                 .then(() => {
                     setErrorMessage('');
-                    setIsRegistered(true);
+                    navigate('/');
                 })
                 .catch((error) => {
                         setErrorMessage(error.response.data.message);
                     }   
                 );
         }}>
-            <label className="block">Username:</label>
-            <input className="border" type="text" value={username} onChange={(event) => setUsername(event.target.value)} />
 
-            <label className="block">Email:</label>
-            <input className="border" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+            <div className="mb-3">
+                <label htmlFor="username" className="form-label">Username</label>
+                <input type="text" className="form-control" id="username" value={username}
+                       onChange={(event) => setUsername(event.target.value)}/>
+            </div>
 
-            <label className="block mt-2">Password:</label>
-            <input className="border" type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+            <div className="mb-3">
+                <label htmlFor="email" className="form-label">Email</label>
+                <input type="email" className="form-control" id="email" value={email}
+                       onChange={(event) => setEmail(event.target.value)}/>
+            </div>
 
-            <button className="block border mt-4 hover:bg-gray-300" type="submit">Register</button>
+            <div className="mb-3">
+                <label htmlFor="password" className="form-label">Password</label>
+                <input type="password" className="form-control" id="password" value={password}
+                       onChange={(event) => setPassword(event.target.value)}/>
+            </div>
+
+            <button type="submit" className="btn btn-primary">Register</button>
         </form>
     </>;
 }
