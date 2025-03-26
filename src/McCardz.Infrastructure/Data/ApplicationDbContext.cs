@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace McCardz.Infrastructure.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<Topic> Topics { get; set; }
 

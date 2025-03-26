@@ -1,5 +1,6 @@
 ﻿using McCardz.API.Models;
-using Microsoft.AspNetCore.Authorization;
+using McCardz.Application.Services;
+using McCardz.Domain.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -13,13 +14,13 @@ namespace McCardz.API.Controllers;
 [Route("api/auth")]
 public class AuthenticationController : ControllerBase
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly IConfiguration _configuration;
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ITokenService _tokenService;
 
-    public AuthenticationController(UserManager<IdentityUser> userManager, IConfiguration configuration)
+    public AuthenticationController(UserManager<ApplicationUser> userManager, ITokenService tokenService)
     {
         _userManager = userManager;
-        _configuration = configuration;
+        _tokenService = tokenService;
     }
 
     [HttpPost("register")]
@@ -34,7 +35,7 @@ public class AuthenticationController : ControllerBase
             });
         }
 
-        var user = new IdentityUser
+        var user = new ApplicationUser
         {
             UserName = register.Username,
             NormalizedUserName = register.Username.ToUpper(),
@@ -66,32 +67,7 @@ public class AuthenticationController : ControllerBase
         var user = await _userManager.FindByNameAsync(model.Username);
         if (user is not null && await _userManager.CheckPasswordAsync(user, model.Password))
         {
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var authClaims = new List<Claim>
-            {
-                new(JwtRegisteredClaimNames.Sub, user.Id),
-                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
-
-            foreach (var role in userRoles)
-            {
-                authClaims.Add(new Claim(ClaimTypes.Role, role));
-            }
-
-            var authSigninKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["JwtSettings:Secret"]!));
-            var token = new JwtSecurityToken(
-                expires: DateTime.Now.AddMinutes(15),
-                claims: authClaims,
-                signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256)
-            );
-            
-            return Ok(new TokenDto
-            {
-                Id = user.Id,
-                Roles = userRoles,
-                Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = token.ValidTo
-            });
+            return Ok(_tokenService.GenerateAccessTokenAsync(user));
         }
 
         return Unauthorized(new ResponseDto
