@@ -27,7 +27,11 @@ public class AuthenticationController : ControllerBase
     {
         if (await _userManager.FindByNameAsync(register.Username) != null)
         {
-            return BadRequest("Username already taken");
+            return BadRequest(new ResponseDto
+            {
+                Status = "Error",
+                Message = "Username already taken."
+            });
         }
 
         var user = new IdentityUser
@@ -38,8 +42,17 @@ public class AuthenticationController : ControllerBase
             NormalizedEmail = register.Email.ToUpper()
         };
 
-        await _userManager.AddPasswordAsync(user, register.Password);
+        var result = await _userManager.CreateAsync(user, register.Password);
 
+        if (!result.Succeeded)
+        {
+            return BadRequest(new ResponseDto
+            {
+                Status = "Error",
+                Message = string.Join('\n', result.Errors.Select(e => e.Description))
+            });
+        }
+        
         return new ResponseDto
         {
             Status = "Success",
@@ -57,7 +70,7 @@ public class AuthenticationController : ControllerBase
             var authClaims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
             foreach (var role in userRoles)
@@ -71,14 +84,20 @@ public class AuthenticationController : ControllerBase
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256)
             );
-
+            
             return Ok(new TokenDto
             {
+                Id = user.Id,
+                Roles = userRoles,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = token.ValidTo
             });
         }
 
-        return Unauthorized();
+        return Unauthorized(new ResponseDto
+        {
+            Status = "Error",
+            Message = "Username or password is incorrect."
+        });
     }
 }

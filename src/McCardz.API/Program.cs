@@ -13,6 +13,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+var spaOrigins = "_spaOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: spaOrigins,
+        policy  =>
+        {
+            policy.WithOrigins("http://localhost:8000"); // TODO: Maybe load from configuration?
+            policy.WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+            policy.WithHeaders("Authorization", "Content-Type");
+        });
+});
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -76,6 +90,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(spaOrigins);
 
 app.UseHttpsRedirection();
 

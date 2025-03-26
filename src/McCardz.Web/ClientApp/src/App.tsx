@@ -1,24 +1,25 @@
-import { useState } from 'react'
+import {BrowserRouter, Route, Routes} from "react-router";
+import Navigation from "./components/Navigation.tsx";
+import Home from "./pages/Home.tsx";
+import Login from "./pages/Login.tsx";
+import Register from "./pages/Register.tsx";
+import TopicsIndex from "./pages/TopicsIndex.tsx";
+import AuthProvider from "./contexts/AuthProvider.tsx";
 
-function App() {
-    const [count, setCount] = useState(0)
-
-    return (
-        <>
-            <h1></h1>
-            <div className="card">
-            <button onClick={() => setCount((count) => count + 1)}>
-                count is {count}
-            </button>
-            <p>
-                Edit <code>src/App.tsx</code> and save to test HMR
-            </p>
-            </div>
-            <p className="read-the-docs">
-                Click on the Vite and React logos to learn more
-            </p>
-        </>
-    )
-}
-
-export default App
+export default () => {
+  return (
+    <AuthProvider>
+        <BrowserRouter>
+            <Navigation />
+            <main className="container">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/topics" element={<TopicsIndex />} />
+                </Routes>
+            </main>
+        </BrowserRouter>
+    </AuthProvider>
+);  
+};
