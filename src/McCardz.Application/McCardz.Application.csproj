@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\McCardz.Domain\McCardz.Domain.csproj" />
+    <ProjectReference Include="..\McCardz.Domain\McCardz.Domain.csproj" />
   </ItemGroup>
 
 </Project>
