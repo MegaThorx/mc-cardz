@@ -70,7 +70,7 @@ public class AuthenticationController : ControllerBase
             var authClaims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
             foreach (var role in userRoles)
@@ -84,14 +84,20 @@ public class AuthenticationController : ControllerBase
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256)
             );
-
+            
             return Ok(new TokenDto
             {
+                Id = user.Id,
+                Roles = userRoles,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 Expiration = token.ValidTo
             });
         }
 
-        return Unauthorized();
+        return Unauthorized(new ResponseDto
+        {
+            Status = "Error",
+            Message = "Username or password is incorrect."
+        });
     }
 }
