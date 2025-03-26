@@ -1,6 +1,7 @@
 ﻿import { useState } from "react";
 import {useAuth} from "../contexts/AuthProvider.tsx";
 import api from "../api.ts";
+import {useNavigate} from "react-router";
 
 export default function ({ }) {
     const [username, setUsername] = useState('');
@@ -8,6 +9,7 @@ export default function ({ }) {
     const [errorMessage, setErrorMessage] = useState('');
     
     const {setToken} = useAuth();
+    const navigate = useNavigate();
 
     return <>
         <h1>Login with your credentials</h1>
@@ -21,6 +23,7 @@ export default function ({ }) {
                 .then((response) => {
                     setErrorMessage('');
                     setToken(response.data.token);
+                    navigate('/');
                 })
                 .catch((error) => {
                         if (error.status === 401) {
