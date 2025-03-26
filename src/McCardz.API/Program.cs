@@ -1,3 +1,4 @@
+using McCardz.API.Hubs;
 using McCardz.Application.Services;
 using McCardz.Domain.Models;
 using McCardz.Domain.Repositories;
@@ -14,8 +15,8 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
 
 var spaOrigins = "_spaOrigins";
 builder.Services.AddCors(options =>
@@ -102,6 +103,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.MapHub<AiHub>("/hub/gemini");
 
 app.MapControllers();
 
