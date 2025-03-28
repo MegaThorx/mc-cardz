@@ -7,6 +7,7 @@ export default function ({ }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     
     const {setToken} = useAuth();
     const navigate = useNavigate();
@@ -16,10 +17,11 @@ export default function ({ }) {
         {errorMessage !== '' ? <div className="alert alert-danger" role="alert">{errorMessage}</div> : null}
         <form className="col-6" onSubmit={(event) => {
             event.preventDefault();
+            setIsLoading(true);
             api.post('/api/auth/login', {
-                username: username,
-                password: password
-            })
+                    username: username,
+                    password: password
+                })
                 .then((response) => {
                     setErrorMessage('');
                     setToken(response.data.token);
@@ -32,7 +34,7 @@ export default function ({ }) {
                             setErrorMessage('Unknown error in the backend');
                         }
                     }
-                );
+                ).finally(() => setIsLoading(false));
         }}>
 
             <div className="mb-3">
@@ -47,7 +49,10 @@ export default function ({ }) {
                        onChange={(event) => setPassword(event.target.value)}/>
             </div>
 
-            <button type="submit" className="btn btn-primary">Login</button>
+            <button type="submit" className="btn btn-primary" disabled={isLoading}>
+                {isLoading ? <span className="spinner-border spinner-border-sm me-2" aria-hidden="true"></span> : null}
+                Login
+            </button>
         </form>
     </>;
 }

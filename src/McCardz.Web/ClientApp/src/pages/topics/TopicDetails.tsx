@@ -1,8 +1,8 @@
 import {useParams} from "react-router";
 import {useEffect, useState} from "react";
-import Topic from "../models/Topic.ts";
-import api from "../api.ts";
-import Question from "../models/Question.ts";
+import Topic from "../../models/Topic.ts";
+import api from "../../api.ts";
+import Question from "../../models/Question.ts";
 
 export default () => {
   const params = useParams();
