@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import Topic from "../models/Topic.ts";
 import api from "../api.ts";
+import {NavLink} from "react-router";
 
 export default function ({}) {
     const [topics, setTopics] = useState<Topic[]>([]);
@@ -13,8 +14,11 @@ export default function ({}) {
     }, []);
     
     return <>
+        <h1>Topics</h1>
         {topics.map((topic) => (
-            <div key={topic.id}>{topic.name}</div>
+            <div key={topic.id}>
+                <NavLink to={`/topics/${topic.id}`}>{topic.name}</NavLink>
+            </div>
         ))}
     </>
 }

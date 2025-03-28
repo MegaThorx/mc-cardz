@@ -63,7 +63,7 @@ public class AuthenticationController : ControllerBase
         var user = await _userManager.FindByNameAsync(model.Username);
         if (user is not null && await _userManager.CheckPasswordAsync(user, model.Password))
         {
-            return Ok(_tokenService.GenerateAccessTokenAsync(user));
+            return Ok(await _tokenService.GenerateAccessTokenAsync(user));
         }
 
         return Unauthorized(new ResponseDto

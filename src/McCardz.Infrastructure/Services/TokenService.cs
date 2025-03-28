@@ -37,7 +37,7 @@ public class TokenService : ITokenService
 
         var authSigninKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["JwtSettings:Secret"]!));
         var token = new JwtSecurityToken(
-            expires: DateTime.Now.AddMinutes(15),
+            expires: DateTime.Now.AddMinutes(120),
             claims: authClaims,
             signingCredentials: new SigningCredentials(authSigninKey, SecurityAlgorithms.HmacSha256)
         ); 

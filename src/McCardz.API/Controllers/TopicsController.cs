@@ -12,10 +12,12 @@ namespace McCardz.API.Controllers;
 public class TopicsController : ControllerBase
 {
     private readonly ITopicRepository _topicRepository;
+    private readonly IQuestionRepository _questionRepository;
 
-    public TopicsController(ITopicRepository topicRepository)
+    public TopicsController(ITopicRepository topicRepository, IQuestionRepository questionRepository)
     {
         _topicRepository = topicRepository;
+        _questionRepository = questionRepository;
     }
 
     [HttpGet]
@@ -49,7 +51,7 @@ public class TopicsController : ControllerBase
         if (topic is null)
             return NotFound();
 
-        var questions = await _topicRepository.FindByIdAsync(topic.Id); //implement FindByTopicAsync
+        var questions = await _questionRepository.FindByTopicAsync(topic.Id); //implement FindByTopicAsync
 
         return Ok(questions);
     }
