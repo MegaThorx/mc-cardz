@@ -38,7 +38,6 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class, IEntit
             throw new ArgumentException("Entity does not exist.");
         
         Context.Entry(existing).CurrentValues.SetValues(entity);
-        // _context.Set<T>().Update(existing); TODO: Check if this actually needed. Entities fetched with ef core should be tracked by default
         await Context.SaveChangesAsync();
 
         return existing;

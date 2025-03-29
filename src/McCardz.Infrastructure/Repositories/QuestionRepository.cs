@@ -33,7 +33,7 @@ public class QuestionRepository : IQuestionRepository
 
     public async Task<Question?> FindByIdAsync(int id)
     {
-        return await _context.Questions.FindAsync();
+        return await _context.Questions.FindAsync(id);
     }
 
     public async Task<Question> UpdateAsync(Question entity)

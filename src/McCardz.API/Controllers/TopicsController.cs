@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 namespace McCardz.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/topics")]
 [Authorize]
 public class TopicsController : ControllerBase
 {
