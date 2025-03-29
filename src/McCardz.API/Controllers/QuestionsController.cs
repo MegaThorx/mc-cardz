@@ -1,4 +1,5 @@
-﻿using McCardz.Domain.Models;
+﻿using McCardz.Domain.Dtos;
+using McCardz.Domain.Models;
 using McCardz.Domain.Repositories;
 using McCardz.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -59,7 +60,7 @@ public class QuestionsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Question>> Post(Question question)
+    public async Task<ActionResult<Question>> Post(QuestionCreateDto question)
     {
         var newQuestion = await _questionRepository.AddAsync(question);
 
@@ -70,17 +71,15 @@ public class QuestionsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<Question>> Put(int id, Question question)
+    public async Task<ActionResult<Question>> Put(int id, QuestionUpdateDto question)
     {
         var originalQuestion = await _questionRepository.FindByIdAsync(id);
 
         if (originalQuestion is null)
             return NotFound();
 
-        originalQuestion.Text = question.Text;
-        originalQuestion.TopicId = question.TopicId;
 
-        return Ok(await _questionRepository.UpdateAsync(originalQuestion));
+        return Ok(await _questionRepository.UpdateAsync(originalQuestion.Id, question));
     }
 
     [HttpDelete("{id}")]
@@ -94,7 +93,7 @@ public class QuestionsController : ControllerBase
         if (question is null)
             return NotFound();
 
-        await _questionRepository.DeleteAsync(question);
+        await _questionRepository.DeleteAsync(question.Id);
 
         return Ok(question);
     }

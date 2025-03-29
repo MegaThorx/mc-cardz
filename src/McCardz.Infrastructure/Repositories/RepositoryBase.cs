@@ -4,7 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace McCardz.Infrastructure.Repositories;
 
-public abstract class RepositoryBase<T> : IRepository<T> where T : class, IEntity
+public abstract class RepositoryBase<TEntity, TEntityCreateDto, TEntityUpdateDto> : IRepository<TEntity, TEntityCreateDto, TEntityUpdateDto> 
+    where TEntity : class, IEntity, new() 
+    where TEntityCreateDto : IEntityDtoMap<TEntity>
+    where TEntityUpdateDto : IEntityDtoMap<TEntity>
 {
     protected readonly ApplicationDbContext Context;
 
@@ -12,45 +15,46 @@ public abstract class RepositoryBase<T> : IRepository<T> where T : class, IEntit
     {
         Context = context;
     }
-    
-    public async Task<IReadOnlyCollection<T>> FindAllAsync()
+
+    public async Task<IReadOnlyCollection<TEntity>> FindAllAsync()
     {
-        return await Context.Set<T>().ToListAsync();
+        return await Context.Set<TEntity>().AsNoTracking().ToListAsync();
     }
 
-    public async Task<T> AddAsync(T entity)
+    public async Task<TEntity> AddAsync(TEntityCreateDto entity)
     {
-        Context.Set<T>().Add(entity);
+        var instance = new TEntity();
+        entity.MapTo(instance);
+        Context.Set<TEntity>().Add(instance);
         await Context.SaveChangesAsync();
-        return entity;
+        return instance;
     }
 
-    public async Task<T?> FindByIdAsync(int id)
+    public async Task<TEntity?> FindByIdAsync(int id)
     {
-        return await Context.Set<T>().FindAsync(id);
+        return await Context.Set<TEntity>().AsNoTracking().FirstAsync(x => x.Id == id);
     }
 
-    public async Task<T> UpdateAsync(T entity)
+    public async Task<TEntity> UpdateAsync(int id, TEntityUpdateDto entity)
     {
-        var existing = await FindByIdAsync(entity.Id);
+        var instance = await Context.Set<TEntity>().FindAsync(id);
 
-        if (existing is null)
+        if (instance is null)
             throw new ArgumentException("Entity does not exist.");
-        
-        Context.Entry(existing).CurrentValues.SetValues(entity);
+
+        entity.MapTo(instance);
         await Context.SaveChangesAsync();
-
-        return existing;
+        return instance;
     }
 
-    public async Task DeleteAsync(T entity)
+    public async Task DeleteAsync(int id)
     {
-        var existing = await FindByIdAsync(entity.Id);
+        var instance = await Context.Set<TEntity>().FindAsync(id);
 
-        if (existing is null)
+        if (instance is null)
             throw new ArgumentException("Entity does not exist.");
-        
-        Context.Set<T>().Remove(existing);
+
+        Context.Set<TEntity>().Remove(instance);
         await Context.SaveChangesAsync();
     }
 }

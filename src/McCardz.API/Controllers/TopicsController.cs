@@ -1,4 +1,6 @@
-﻿using McCardz.Domain.Models;
+﻿using McCardz.API.Models;
+using McCardz.Domain.Dtos;
+using McCardz.Domain.Models;
 using McCardz.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -59,9 +61,9 @@ public class TopicsController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Topic>> Post(Topic topic)
+    public async Task<ActionResult<Topic>> Post(TopicCreateDto topicCreate)
     {
-        var newTopic = await _topicRepository.AddAsync(topic);
+        var newTopic = await _topicRepository.AddAsync(topicCreate);
 
         return CreatedAtAction(nameof(Get), new { id = newTopic.Id }, newTopic);
     }
@@ -70,16 +72,14 @@ public class TopicsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<Topic>> Put(int id, Topic topic)
+    public async Task<ActionResult<Topic>> Put(int id, TopicUpdateDto topic)
     {
         var originalTopic = await _topicRepository.FindByIdAsync(id);
 
         if (originalTopic is null)
             return NotFound();
 
-        originalTopic.Name = topic.Name;
-
-        return Ok(await _topicRepository.UpdateAsync(originalTopic));
+        return Ok(await _topicRepository.UpdateAsync(originalTopic.Id, topic));
     }
 
     [HttpDelete("{id}")]
@@ -93,7 +93,7 @@ public class TopicsController : ControllerBase
         if (topic is null)
             return NotFound();
 
-        await _topicRepository.DeleteAsync(topic);
+        await _topicRepository.DeleteAsync(topic.Id);
 
         return Ok(topic);
     }

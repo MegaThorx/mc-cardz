@@ -1,14 +1,17 @@
 ﻿namespace McCardz.Domain.Repositories;
 
-public interface IRepository<T> where T : IEntity
+public interface IRepository<TEntity, TEntityCreateDto, TEntityUpdateDto> 
+    where TEntity : class, IEntity, new() 
+    where TEntityCreateDto : IEntityDtoMap<TEntity> 
+    where TEntityUpdateDto : IEntityDtoMap<TEntity>
 {
-    Task<IReadOnlyCollection<T>> FindAllAsync();
+    Task<IReadOnlyCollection<TEntity>> FindAllAsync();
 
-    Task<T> AddAsync(T entity);
+    Task<TEntity> AddAsync(TEntityCreateDto entity);
 
-    Task<T?> FindByIdAsync(int id);
+    Task<TEntity?> FindByIdAsync(int id);
 
-    Task<T> UpdateAsync(T entity);
+    Task<TEntity> UpdateAsync(int id, TEntityUpdateDto entity);
 
-    Task DeleteAsync(T entity);
+    Task DeleteAsync(int id);
 }

@@ -5,17 +5,15 @@ namespace McCardz.API.Hubs;
 
 public interface IAiHub
 {
-    Task ReceiveMessage(string user, string message);
+    Task ReceiveMessage(string identifier, string answer);
 }
 public class AiHub : Hub
 {
 
 
-    public async Task SendMessage(string user, string message)
+    public async Task SendMessage(string identifier, string question)
     {
-
-
-
-        await Clients.AllExcept(Context.ConnectionId).SendAsync("ReceiveMessage", user, message);
+        var answer = "";
+        await Clients.AllExcept(Context.ConnectionId).SendAsync("ReceiveMessage", identifier, answer);
     }
 }
