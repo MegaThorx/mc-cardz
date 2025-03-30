@@ -7,7 +7,6 @@ import {ToastType, useToast} from "../../contexts/ToastProvider.tsx";
 export default () => {
     const params = useParams();
     const [topic, setTopic] = useState<Topic | null>(null);
-    const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
@@ -15,10 +14,7 @@ export default () => {
 
     useEffect(() => {
         api.get(`api/topics/${params.topicId}`)
-            .then((response) => {
-                setName(response.data.name);
-                setTopic(response.data);
-            })
+            .then((response) => setTopic(response.data))
             .catch(() => toast(ToastType.Danger, 'Unable to fetch topic'));
     }, [])
 
@@ -33,30 +29,25 @@ export default () => {
     }
 
     return <>
-        <h1>Edit topic</h1>
+        <h1>Delete topic</h1>
         <form className="col-6" onSubmit={(event) => {
             event.preventDefault();
 
             setIsLoading(true);
-            api.put(`/api/topics/${params.topicId}`, {
-                name: name,
-            })
-                .then(response => {
-                    navigate(`/topics/${response.data.id}`);
-                })
-                .catch(() => toast(ToastType.Danger, 'Unable to update topic'))
+            api.delete(`/api/topics/${params.topicId}`)
+                .then(() => navigate('/topics'))
+                .catch(() => toast(ToastType.Danger, 'Unable to delete topic'))
                 .finally(() => setIsLoading(false));
         }}>
 
             <div className="mb-3">
                 <label htmlFor="name" className="form-label">Name</label>
-                <input type="text" className="form-control" id="name" value={name}
-                       onChange={(event) => setName(event.target.value)}/>
+                <input type="text" className="form-control" id="name" value={topic.name} disabled/>
             </div>
 
-            <button type="submit" className="btn btn-primary" disabled={isLoading}>
+            <button type="submit" className="btn btn-danger" disabled={isLoading}>
                 {isLoading ? <span className="spinner-border spinner-border-sm me-2" aria-hidden="true"></span> : null}
-                Update
+                Delete
             </button>
         </form>
     </>;

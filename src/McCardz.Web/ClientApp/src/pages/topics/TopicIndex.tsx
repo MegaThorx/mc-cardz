@@ -2,17 +2,20 @@ import {useEffect, useState} from "react";
 import Topic from "../../models/Topic.ts";
 import api from "../../api.ts";
 import {NavLink} from "react-router";
+import {ToastType, useToast} from "../../contexts/ToastProvider.tsx";
 
 export default function ({}) {
     const [topics, setTopics] = useState<Topic[]>([]);
-    
+    const toast = useToast();
+
     useEffect(() => {
         api.get('/api/topics')
             .then((response) => {
-                setTopics(response.data); 
-            });
+                setTopics(response.data);
+            })
+            .catch(() => toast(ToastType.Danger, 'Unable to fetch topics'));
     }, []);
-    
+
     return <>
         <div className="d-flex justify-content-between align-items-center">
             <h1>Topics</h1>

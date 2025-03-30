@@ -1,33 +1,30 @@
-﻿import { useState } from "react";
-import { useNavigate } from "react-router";
+﻿import {useState} from "react";
+import {useNavigate} from "react-router";
 import api from "../api.ts";
+import {ToastType, useToast} from "../contexts/ToastProvider.tsx";
 
-export default function ({ }) {
+export default function ({}) {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+    const toast = useToast();
 
     return <>
         <h1>Create your account</h1>
-
-        {errorMessage !== '' ? <div className="alert alert-danger" role="alert">{errorMessage}</div> : null}
         <form className="col-6" onSubmit={(event) => {
             event.preventDefault();
             api.post('/api/auth/register', {
-                    username: username,
-                    email: email,
-                    password: password
-                })
+                username: username,
+                email: email,
+                password: password
+            })
                 .then(() => {
-                    setErrorMessage('');
-                    navigate('/');
+                    navigate('/login');
                 })
                 .catch((error) => {
-                        setErrorMessage(error.response.data.message);
-                    }   
-                );
+                    toast(ToastType.Danger, error.response.data.message);
+                });
         }}>
 
             <div className="mb-3">

@@ -1,26 +1,30 @@
 ﻿import api from "../../api.ts";
 import {useState} from "react";
 import {useNavigate} from "react-router";
+import {ToastType, useToast} from "../../contexts/ToastProvider.tsx";
 
 export default () => {
     const [name, setName] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    
+
     const navigate = useNavigate();
-    
+    const toast = useToast();
+
     return <>
         <h1>Create topic</h1>
         <form className="col-6" onSubmit={(event) => {
             event.preventDefault();
-            
+
             setIsLoading(true);
             api.post('/api/topics', {
-                    name: name,
-                })
+                name: name,
+            })
                 .then(response => {
                     navigate(`/topics/${response.data.id}`);
                 })
-                .catch((error) => {})
+                .catch(() => {
+                    toast(ToastType.Danger, 'Unable to fetch topic');
+                })
                 .finally(() => setIsLoading(false));
         }}>
 
