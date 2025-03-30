@@ -7,13 +7,21 @@ export type Answer = {
 }
 
 type AnswerInputProps = ComponentProps<'div'> & {
+    question: String,
     name: string;
     title: string;
     answer: Answer;
     setAnswer: (answer: Answer) => void;
 };
 
-export default ({name, title, answer, setAnswer}: AnswerInputProps) => {
+export default ({question, name, title, answer, setAnswer}: AnswerInputProps) => {
+    const generateAiResponse = () => {
+      // Prompt
+      
+      // Update
+      setAnswer({text: question + 'response', isAiGenerated: false, isCorrect: false});  
+    };
+    
     return <div className="mb-3">
         <label htmlFor={name} className="form-label">{title}</label>
         <input type="text" className="form-control" id={name} value={answer.text}
@@ -38,6 +46,6 @@ export default ({name, title, answer, setAnswer}: AnswerInputProps) => {
             </label>
         </div>
 
-        <button className="btn btn-primary" type="submit">Generate with AI</button>
+        <button className="btn btn-primary" onClick={() => generateAiResponse()}>Generate with AI</button>
     </div>;  
 };
