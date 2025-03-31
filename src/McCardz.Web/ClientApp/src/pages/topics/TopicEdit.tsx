@@ -12,7 +12,7 @@ export default () => {
 
     const navigate = useNavigate();
     const toast = useToast();
-    const api = useApi();
+    const {api} = useApi();
 
     useEffect(() => {
         api.get(`api/topics/${params.topicId}`)

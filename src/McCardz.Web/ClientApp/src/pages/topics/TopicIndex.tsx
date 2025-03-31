@@ -7,7 +7,7 @@ import {useApi} from "../../contexts/ApiProvider.tsx";
 export default function ({}) {
     const [topics, setTopics] = useState<Topic[]>([]);
     const toast = useToast();
-    const api = useApi();
+    const {api} = useApi();
 
     useEffect(() => {
         api.get('/api/topics')

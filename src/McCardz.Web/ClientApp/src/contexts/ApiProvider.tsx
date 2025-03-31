@@ -1,18 +1,55 @@
-import {createContext, PropsWithChildren, useContext} from "react";
+import {createContext, PropsWithChildren, useContext, useEffect, useState} from "react";
 import axios, {AxiosInstance} from "axios";
 import {useAuth} from "./AuthProvider.tsx";
 import {useNavigate} from "react-router";
+import * as signalR from "@microsoft/signalr";
+import {usePub} from "../hooks/usePubSub.ts";
 
-const ApiContext = createContext<AxiosInstance>(axios.create());
+const baseUrl = "https://localhost:7016";
+
+export type ApiContextType = {
+    api: AxiosInstance;
+    sendMessage: (identifier: string, message: string) => void;
+}
+
+// @ts-ignore
+const ApiContext = createContext<ApiContextType>(null);
 
 const ApiProvider = ({children}: PropsWithChildren) => {
+    const [connection, setConnection] = useState<signalR.HubConnection | null>(null);
+    const [event] = useState(new CustomEvent("signalR"));
+    const pub = usePub();
+    
     const api = axios.create({
-        baseURL: 'https://localhost:7016'
+        baseURL: baseUrl
     });
     
     const {setToken} = useAuth();
     const navigate = useNavigate();
+    const sendMessage = (identifier: string, message: string) => {
+        if (connection) {
+            connection.invoke('SendMessage', identifier, message);
+        }
+    };
 
+    useEffect(() => {
+        const newConnection = new signalR.HubConnectionBuilder()
+            .withUrl(`${baseUrl}/hub/gemini`)
+            .withAutomaticReconnect()
+            .build();
+
+        setConnection(newConnection);
+    }, []);
+
+    useEffect(() => {
+        if (connection) {
+            connection.on('ReceiveMessage', (identifier, response) => {
+                pub('ReceiveMessage', {identifier, response});
+            });
+            connection.start();
+        }
+    }, [connection, event]);
+    
     api.interceptors.request.use(
         (config) => {
             const token = localStorage.getItem('token');
@@ -41,7 +78,7 @@ const ApiProvider = ({children}: PropsWithChildren) => {
         }
     )
 
-    return <ApiContext.Provider value={api}>{children}</ApiContext.Provider>;
+    return <ApiContext.Provider value={{api, sendMessage}}>{children}</ApiContext.Provider>;
 };
 
 export const useApi = () => {

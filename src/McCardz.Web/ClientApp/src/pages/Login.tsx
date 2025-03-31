@@ -12,7 +12,7 @@ export default function ({}) {
     const {setToken} = useAuth();
     const navigate = useNavigate();
     const toast = useToast();
-    const api = useApi();
+    const {api} = useApi();
 
     return <>
         <h1>Login with your credentials</h1>

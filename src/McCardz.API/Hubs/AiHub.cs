@@ -19,7 +19,7 @@ public class AiHub : Hub
 
     public async Task SendMessage(string identifier, string question)
     {
-        var answer = _aiService.GetAiResponseAsync($"Generate a incorrect answer to the question `{question}`");
-        await Clients.AllExcept(Context.ConnectionId).SendAsync("ReceiveMessage", identifier, answer);
+        var answer = await _aiService.GetAiResponseAsync($"Generate a incorrect answer to the question `{question}`");
+        await Clients.Caller.SendAsync("ReceiveMessage", identifier, answer);
     }
 }

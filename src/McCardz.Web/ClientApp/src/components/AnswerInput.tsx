@@ -1,4 +1,6 @@
-import {ComponentProps} from "react";
+import {ComponentProps, useState} from "react";
+import {useApi} from "../contexts/ApiProvider.tsx";
+import {useSub} from "../hooks/usePubSub.ts";
 
 export type Answer = {
     text: string;
@@ -15,11 +17,18 @@ type AnswerInputProps = ComponentProps<'div'> & {
 };
 
 export default ({question, name, title, answer, setAnswer}: AnswerInputProps) => {
-    const generateAiResponse = () => {
-      // Prompt
-      
-      // Update
-      setAnswer({text: question + 'response', isAiGenerated: false, isCorrect: false});  
+    const [identifier] = useState(crypto.randomUUID());
+    const {sendMessage} = useApi();
+    
+    useSub("ReceiveMessage", (response: any) => {
+       if (identifier === response.identifier) {
+           setAnswer({text: response.response, isAiGenerated: true, isCorrect: false});
+       } 
+    });
+
+    const generateAiResponse = (event: any) => {
+        event.preventDefault();
+        sendMessage(identifier, `Generate a incorrect answer to the following question: ${question}`);
     };
     
     return <div className="mb-3">
@@ -46,6 +55,6 @@ export default ({question, name, title, answer, setAnswer}: AnswerInputProps) =>
             </label>
         </div>
 
-        <button className="btn btn-primary" onClick={() => generateAiResponse()}>Generate with AI</button>
+        <button className="btn btn-primary" onClick={generateAiResponse}>Generate with AI</button>
     </div>;  
 };

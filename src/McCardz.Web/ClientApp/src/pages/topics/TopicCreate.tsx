@@ -9,7 +9,7 @@ export default () => {
 
     const navigate = useNavigate();
     const toast = useToast();
-    const api = useApi();
+    const {api} = useApi();
 
     return <>
         <h1>Create topic</h1>

@@ -10,7 +10,7 @@ export default () => {
     const [topic, setTopic] = useState<Topic>();
     const [questions, setQuestions] = useState<Question[]>([]);
     const toast = useToast();
-    const api = useApi();
+    const {api} = useApi();
 
     useEffect(() => {
         api.get(`api/topics/${params.topicId}`)

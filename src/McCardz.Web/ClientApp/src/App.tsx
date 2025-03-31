@@ -13,6 +13,8 @@ import ToastProvider from "./contexts/ToastProvider.tsx";
 import QuestionDetail from "./pages/questions/QuestionDetail.tsx";
 import QuestionCreate from "./pages/questions/QuestionCreate.tsx";
 import ApiProvider from "./contexts/ApiProvider.tsx";
+import TopicQuiz from "./pages/topics/TopicQuiz.tsx";
+import QuestionDelete from "./pages/questions/QuestionDelete.tsx";
 
 export default () => {
     return (
@@ -32,7 +34,9 @@ export default () => {
                                 <Route path="/topics/:topicId/edit" element={<TopicEdit/>}/>
                                 <Route path="/topics/:topicId/delete" element={<TopicDelete/>}/>
                                 <Route path="/topics/:topicId/question" element={<QuestionCreate/>}/>
+                                <Route path="/topics/:topicId/quiz" element={<TopicQuiz/>}/>
                                 <Route path="/questions/:questionId" element={<QuestionDetail/>}/>
+                                <Route path="/questions/:questionId/delete" element={<QuestionDelete/>}/>
                             </Routes>
                         </main>
                     </ApiProvider>

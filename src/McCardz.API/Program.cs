@@ -27,7 +27,8 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins("http://localhost:8000"); // TODO: Maybe load from configuration?
             policy.WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
-            policy.WithHeaders("Authorization", "Content-Type");
+            policy.WithHeaders("Authorization", "Content-Type", "X-Requested-With", "X-Signalr-User-Agent");
+            policy.AllowCredentials();
         });
 });
 
