@@ -15,6 +15,7 @@ import QuestionCreate from "./pages/questions/QuestionCreate.tsx";
 import ApiProvider from "./contexts/ApiProvider.tsx";
 import TopicQuiz from "./pages/topics/TopicQuiz.tsx";
 import QuestionDelete from "./pages/questions/QuestionDelete.tsx";
+import QuestionEdit from "./pages/questions/QuestionEdit.tsx";
 
 export default () => {
     return (
@@ -36,6 +37,7 @@ export default () => {
                                 <Route path="/topics/:topicId/question" element={<QuestionCreate/>}/>
                                 <Route path="/topics/:topicId/quiz" element={<TopicQuiz/>}/>
                                 <Route path="/questions/:questionId" element={<QuestionDetail/>}/>
+                                <Route path="/questions/:questionId/edit" element={<QuestionEdit/>}/>
                                 <Route path="/questions/:questionId/delete" element={<QuestionDelete/>}/>
                             </Routes>
                         </main>

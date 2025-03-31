@@ -70,6 +70,7 @@ const ApiProvider = ({children}: PropsWithChildren) => {
                     // If it is the login page just return the promise
                     return Promise.reject(error);
                 }
+                // TODO: Implement logic to use the refresh token
                 setToken('');
                 navigate('/login');
             }

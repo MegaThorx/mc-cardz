@@ -3,6 +3,7 @@ import {useApi} from "../contexts/ApiProvider.tsx";
 import {useSub} from "../hooks/usePubSub.ts";
 
 export type Answer = {
+    id: string;
     text: string;
     isCorrect: boolean;
     isAiGenerated: boolean;
@@ -22,7 +23,7 @@ export default ({question, name, title, answer, setAnswer}: AnswerInputProps) =>
     
     useSub("ReceiveMessage", (response: any) => {
        if (identifier === response.identifier) {
-           setAnswer({text: response.response, isAiGenerated: true, isCorrect: false});
+           setAnswer({id: answer.id, text: response.response, isAiGenerated: true, isCorrect: false});
        } 
     });
 
@@ -35,11 +36,11 @@ export default ({question, name, title, answer, setAnswer}: AnswerInputProps) =>
         <label htmlFor={name} className="form-label">{title}</label>
         <input type="text" className="form-control" id={name} value={answer.text}
                onChange={(event) => {
-                   setAnswer({text: event.target.value, isCorrect: answer.isCorrect, isAiGenerated: answer.isAiGenerated});
+                   setAnswer({id: answer.id, text: event.target.value, isCorrect: answer.isCorrect, isAiGenerated: answer.isAiGenerated});
            }} />
         <div className="form-check">
             <input className="form-check-input" type="checkbox" checked={answer.isCorrect} id={`${name}-correct`} onChange={(event) => {
-                setAnswer({text: answer.text, isCorrect: event.target.checked, isAiGenerated: answer.isAiGenerated});
+                setAnswer({id: answer.id, text: answer.text, isCorrect: event.target.checked, isAiGenerated: answer.isAiGenerated});
             }}/>
             <label className="form-check-label" htmlFor={`${name}-correct`}>
                 Is correct?
@@ -48,7 +49,7 @@ export default ({question, name, title, answer, setAnswer}: AnswerInputProps) =>
 
         <div className="form-check">
             <input className="form-check-input" type="checkbox" checked={answer.isAiGenerated} id={`${name}-ai`} onChange={(event) => {
-                setAnswer({text: answer.text, isCorrect: answer.isCorrect, isAiGenerated: event.target.checked});
+                setAnswer({id: answer.id, text: answer.text, isCorrect: answer.isCorrect, isAiGenerated: event.target.checked});
             }} />
             <label className="form-check-label" htmlFor={`${name}-ai`}>
                 Is AI generated?
