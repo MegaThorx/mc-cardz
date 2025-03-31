@@ -42,7 +42,7 @@ export default () => {
         </div>
         <ul>
             {answers.map((item) => (
-                <li key={item.id}>{item.text}</li>
+                <li key={item.id} className="my-3">{item.text}</li>
             ))}
         </ul>
     </>  

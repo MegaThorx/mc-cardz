@@ -37,7 +37,7 @@ export default () => {
         </div>
         <ul>
             {questions.map((question) => (
-                <li key={question.id}><NavLink to={`/questions/${question.id}`}>{question.text}</NavLink></li>
+                <li key={question.id} className="my-3"><NavLink to={`/questions/${question.id}`} className="text-decoration-none">{question.text}</NavLink></li>
             ))}
         </ul>
     </>;
