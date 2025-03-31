@@ -39,7 +39,7 @@ export default () => {
     
     if (topic === null || questions.length === 0 || answers.length === 0) {
         return <>
-            <h1>Quiz topic</h1>
+            <h1>Quiz Topic</h1>
             <div>
                 <span className="spinner-border me-2"></span>
                 <span role="status">Loading...</span>
@@ -50,7 +50,7 @@ export default () => {
     if (questionIndex >= questions.length) {
         return <>
             <h1>Quiz: {topic?.name}</h1>
-            <span>You have answered all questions.</span>
+            <span>You have answered all questions!</span>
         </>
     }
     

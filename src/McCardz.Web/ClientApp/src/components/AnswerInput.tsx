@@ -29,16 +29,16 @@ export default ({question, name, title, answer, setAnswer}: AnswerInputProps) =>
 
     const generateAiResponse = (event: any) => {
         event.preventDefault();
-        sendMessage(identifier, `Generate a incorrect answer to the following question: ${question}`);
+        sendMessage(identifier, `Generate an incorrect answer to the following question: ${question}`);
     };
     
     return <div className="mb-3">
-        <label htmlFor={name} className="form-label">{title}</label>
+        <label htmlFor={name} className="form-label fw-bold mt-2">{title}</label>
         <input type="text" className="form-control" id={name} value={answer.text}
                onChange={(event) => {
                    setAnswer({id: answer.id, text: event.target.value, isCorrect: answer.isCorrect, isAiGenerated: answer.isAiGenerated});
            }} />
-        <div className="form-check">
+        <div className="form-check mt-2">
             <input className="form-check-input" type="checkbox" checked={answer.isCorrect} id={`${name}-correct`} onChange={(event) => {
                 setAnswer({id: answer.id, text: answer.text, isCorrect: event.target.checked, isAiGenerated: answer.isAiGenerated});
             }}/>
@@ -47,7 +47,7 @@ export default ({question, name, title, answer, setAnswer}: AnswerInputProps) =>
             </label>
         </div>
 
-        <div className="form-check">
+        <div className="form-check mt-2">
             <input className="form-check-input" type="checkbox" checked={answer.isAiGenerated} id={`${name}-ai`} onChange={(event) => {
                 setAnswer({id: answer.id, text: answer.text, isCorrect: answer.isCorrect, isAiGenerated: event.target.checked});
             }} />
@@ -56,6 +56,6 @@ export default ({question, name, title, answer, setAnswer}: AnswerInputProps) =>
             </label>
         </div>
 
-        <button className="btn btn-primary" onClick={generateAiResponse}>Generate with AI</button>
+        <button className="btn btn-primary mt-3" onClick={generateAiResponse}>Generate with AI</button>
     </div>;  
 };

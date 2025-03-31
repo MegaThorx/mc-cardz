@@ -60,10 +60,10 @@ export default () => {
     };
     
     return <>
-        <h1>Create question</h1>
+        <h1>Create a Question</h1>
         <form onSubmit={save}>
             <div className="mb-3">
-                <label htmlFor="question" className="form-label">Question</label>
+                <label htmlFor="question" className="form-label fw-bold mt-3">Question</label>
                 <input type="text" className="form-control" id="question" value={question}
                        onChange={(event) => setQuestion(event.target.value)}/>
             </div>

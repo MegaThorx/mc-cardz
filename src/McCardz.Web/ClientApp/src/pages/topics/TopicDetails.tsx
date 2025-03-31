@@ -30,10 +30,10 @@ export default () => {
                 <NavLink to={`/topics/${params.topicId}/delete`} className="btn btn-sm btn-danger">Delete</NavLink>
             </div>
         </div>
-        <NavLink to={`/topics/${params.topicId}/quiz`} className="btn btn-primary my-4">Quiz me</NavLink>
+        <NavLink to={`/topics/${params.topicId}/quiz`} className="btn btn-primary my-4">Quiz Me</NavLink>
         <div className="d-flex justify-content-between align-items-center">
             <h2>Questions</h2>
-            <NavLink to={`/topics/${params.topicId}/question`} className="btn btn-sm btn-primary me-2">Add question</NavLink>
+            <NavLink to={`/topics/${params.topicId}/question`} className="btn btn-sm btn-primary me-2">Add Question</NavLink>
         </div>
         <ul>
             {questions.map((question) => (

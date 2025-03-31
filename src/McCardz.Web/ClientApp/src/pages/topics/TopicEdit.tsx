@@ -25,7 +25,7 @@ export default () => {
 
     if (topic === null) {
         return <>
-            <h1>Edit topic</h1>
+            <h1>Edit Topic</h1>
             <div>
                 <span className="spinner-border me-2"></span>
                 <span role="status">Loading...</span>
@@ -34,7 +34,7 @@ export default () => {
     }
 
     return <>
-        <h1>Edit topic</h1>
+        <h1>Edit Topic</h1>
         <form className="col-6" onSubmit={(event) => {
             event.preventDefault();
 

@@ -20,12 +20,12 @@ export default function ({}) {
     return <>
         <div className="d-flex justify-content-between align-items-center">
             <h1>Topics</h1>
-            <NavLink to="/topics/create" className="btn btn-sm btn-primary">Create topic</NavLink>
+            <NavLink to="/topics/create" className="btn btn-sm btn-primary">Create Topic</NavLink>
         </div>
-        {topics.length === 0 ? <span>No topics found.</span> : null}
+        {topics.length === 0 ? <span>No Topics Found</span> : null}
         {topics.map((topic) => (
-            <div key={topic.id}>
-                <NavLink to={`/topics/${topic.id}`}>{topic.name}</NavLink>
+            <div key={topic.id} className="mt-3 fs-5 fw-bold">
+                <NavLink to={`/topics/${topic.id}`} className="text-decoration-none">{topic.name}</NavLink>
             </div>
         ))}
     </>

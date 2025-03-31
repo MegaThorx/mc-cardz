@@ -12,7 +12,7 @@ export default () => {
     const {api} = useApi();
 
     return <>
-        <h1>Create topic</h1>
+        <h1>Create Topic</h1>
         <form className="col-6" onSubmit={(event) => {
             event.preventDefault();
 
