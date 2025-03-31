@@ -1,4 +1,4 @@
-import {ComponentProps, useState} from "react";
+import {ComponentProps} from "react";
 import {useApi} from "../contexts/ApiProvider.tsx";
 import {useSub} from "../hooks/usePubSub.ts";
 
@@ -18,18 +18,17 @@ type AnswerInputProps = ComponentProps<'div'> & {
 };
 
 export default ({question, name, title, answer, setAnswer}: AnswerInputProps) => {
-    const [identifier] = useState(crypto.randomUUID());
     const {sendMessage} = useApi();
     
     useSub("ReceiveMessage", (response: any) => {
-       if (identifier === response.identifier) {
+       if (answer.id.toString() === response.identifier) {
            setAnswer({id: answer.id, text: response.response, isAiGenerated: true, isCorrect: false});
        } 
     });
 
     const generateAiResponse = (event: any) => {
         event.preventDefault();
-        sendMessage(identifier, `Generate an incorrect answer to the following question: ${question}`);
+        sendMessage(answer.id.toString(), `Generate an incorrect answer to the following question: ${question}`);
     };
     
     return <div className="mb-3">

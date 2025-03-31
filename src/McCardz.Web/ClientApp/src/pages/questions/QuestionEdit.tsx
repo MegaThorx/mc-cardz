@@ -43,6 +43,11 @@ export default () => {
         }).catch(() => toast(ToastType.Danger, "Failed to save question"));
     };
     
+    const setAnswer = (newAnswer: Answer) => {
+        console.log(answers, newAnswer);
+        setAnswers([...answers.filter(x => x.id !== newAnswer.id), newAnswer]);
+    };
+    
     return <>
         <h1>Create a Question</h1>
         <form onSubmit={save}>
@@ -52,10 +57,8 @@ export default () => {
                        onChange={(event) => setQuestion(event.target.value)}/>
             </div>
 
-            {answers.map((answer, index) => (
-                <AnswerInput key={answer.id} question={question} name={`answer-${index + 1}`} title={`Answer ${index + 1}`} answer={answer} setAnswer={(newAnswer) => {
-                    setAnswers([...answers.filter(x => x.id !== newAnswer.id), newAnswer]);
-                }} />
+            {answers.sort((a, b) => a.id > b.id ? 1 : -1).map((answer, index) => (
+                <AnswerInput key={answer.id} question={question} name={`answer-${index + 1}`} title={`Answer ${index + 1}`} answer={answer} setAnswer={setAnswer} />
             ))}
             
             <button type="submit" className="btn btn-primary mt-2" disabled={isLoading}>

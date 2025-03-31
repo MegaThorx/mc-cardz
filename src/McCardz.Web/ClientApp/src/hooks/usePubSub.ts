@@ -11,7 +11,7 @@ export const useSub = (event: any, callback: any) => {
     useEffect(() => {
         emitter.on(event, callback);
         return unsubscribe;
-    }, []);
+    }, [callback]);
 
     return unsubscribe;
 };

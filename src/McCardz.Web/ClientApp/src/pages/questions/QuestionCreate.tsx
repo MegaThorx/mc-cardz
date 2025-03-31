@@ -8,10 +8,10 @@ import axios from "axios";
 export default () => {
     const params = useParams();
     const [question, setQuestion] = useState<string>("");
-    const [answer1, setAnswer1] = useState<Answer>({text: "", isCorrect: true, isAiGenerated: false});
-    const [answer2, setAnswer2] = useState<Answer>({text: "", isCorrect: false, isAiGenerated: false});
-    const [answer3, setAnswer3] = useState<Answer>({text: "", isCorrect: false, isAiGenerated: false});
-    const [answer4, setAnswer4] = useState<Answer>({text: "", isCorrect: false, isAiGenerated: false});
+    const [answer1, setAnswer1] = useState<Answer>({id: "1", text: "", isCorrect: true, isAiGenerated: false});
+    const [answer2, setAnswer2] = useState<Answer>({id: "2", text: "", isCorrect: false, isAiGenerated: false});
+    const [answer3, setAnswer3] = useState<Answer>({id: "3", text: "", isCorrect: false, isAiGenerated: false});
+    const [answer4, setAnswer4] = useState<Answer>({id: "4", text: "", isCorrect: false, isAiGenerated: false});
     const [isLoading, setIsLoading] = useState(false);
     const toast = useToast();
     const navigate = useNavigate();
