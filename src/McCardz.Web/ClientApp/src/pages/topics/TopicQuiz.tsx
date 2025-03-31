@@ -31,6 +31,7 @@ export default () => {
 
     useEffect(() => {
         if (questions[questionIndex]) {
+            setCorrectAnswers([]);
             api.get(`api/questions/${questions[questionIndex].id}/answers`)
                 .then((response) => setAnswers(response.data))
                 .catch(() => toast(ToastType.Danger, 'Unable to fetch answers'));
