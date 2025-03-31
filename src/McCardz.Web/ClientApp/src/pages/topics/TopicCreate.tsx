@@ -1,7 +1,7 @@
-﻿import api from "../../api.ts";
-import {useState} from "react";
+﻿import {useState} from "react";
 import {useNavigate} from "react-router";
 import {ToastType, useToast} from "../../contexts/ToastProvider.tsx";
+import {useApi} from "../../contexts/ApiProvider.tsx";
 
 export default () => {
     const [name, setName] = useState('');
@@ -9,6 +9,7 @@ export default () => {
 
     const navigate = useNavigate();
     const toast = useToast();
+    const api = useApi();
 
     return <>
         <h1>Create topic</h1>

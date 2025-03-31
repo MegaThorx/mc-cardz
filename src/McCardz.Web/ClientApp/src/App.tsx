@@ -12,27 +12,30 @@ import TopicDelete from "./pages/topics/TopicDelete.tsx";
 import ToastProvider from "./contexts/ToastProvider.tsx";
 import QuestionDetail from "./pages/questions/QuestionDetail.tsx";
 import QuestionCreate from "./pages/questions/QuestionCreate.tsx";
+import ApiProvider from "./contexts/ApiProvider.tsx";
 
 export default () => {
     return (
         <ToastProvider>
             <AuthProvider>
                 <BrowserRouter>
-                    <Navigation/>
-                    <main className="container">
-                        <Routes>
-                            <Route path="/" element={<Home/>}/>
-                            <Route path="/login" element={<Login/>}/>
-                            <Route path="/register" element={<Register/>}/>
-                            <Route path="/topics" element={<TopicIndex/>}/>
-                            <Route path="/topics/create" element={<TopicCreate/>}/>
-                            <Route path="/topics/:topicId" element={<TopicDetails/>}/>
-                            <Route path="/topics/:topicId/edit" element={<TopicEdit/>}/>
-                            <Route path="/topics/:topicId/delete" element={<TopicDelete/>}/>
-                            <Route path="/topics/:topicId/question" element={<QuestionCreate/>}/>
-                            <Route path="/questions/:questionId" element={<QuestionDetail/>}/>
-                        </Routes>
-                    </main>
+                    <ApiProvider>
+                        <Navigation/>
+                        <main className="container">
+                            <Routes>
+                                <Route path="/" element={<Home/>}/>
+                                <Route path="/login" element={<Login/>}/>
+                                <Route path="/register" element={<Register/>}/>
+                                <Route path="/topics" element={<TopicIndex/>}/>
+                                <Route path="/topics/create" element={<TopicCreate/>}/>
+                                <Route path="/topics/:topicId" element={<TopicDetails/>}/>
+                                <Route path="/topics/:topicId/edit" element={<TopicEdit/>}/>
+                                <Route path="/topics/:topicId/delete" element={<TopicDelete/>}/>
+                                <Route path="/topics/:topicId/question" element={<QuestionCreate/>}/>
+                                <Route path="/questions/:questionId" element={<QuestionDetail/>}/>
+                            </Routes>
+                        </main>
+                    </ApiProvider>
                 </BrowserRouter>
             </AuthProvider>
         </ToastProvider>

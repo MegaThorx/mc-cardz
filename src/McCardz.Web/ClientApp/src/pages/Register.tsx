@@ -1,7 +1,7 @@
 ﻿import {useState} from "react";
 import {useNavigate} from "react-router";
-import api from "../api.ts";
 import {ToastType, useToast} from "../contexts/ToastProvider.tsx";
+import {useApi} from "../contexts/ApiProvider.tsx";
 
 export default function ({}) {
     const [username, setUsername] = useState('');
@@ -9,17 +9,19 @@ export default function ({}) {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
     const toast = useToast();
+    const api = useApi();
 
     return <>
         <h1>Create your account</h1>
         <form className="col-6" onSubmit={(event) => {
             event.preventDefault();
             api.post('/api/auth/register', {
-                username: username,
-                email: email,
-                password: password
-            })
-                .then(() => {
+                    username: username,
+                    email: email,
+                    password: password
+                })
+                .then((response) => {
+                    console.log(response);
                     navigate('/login');
                 })
                 .catch((error) => {

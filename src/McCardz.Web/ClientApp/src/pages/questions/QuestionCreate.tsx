@@ -1,5 +1,6 @@
 import {useState} from "react";
 import AnswerInput, {Answer} from "../../components/AnswerInput.tsx";
+import {useApi} from "../../contexts/ApiProvider.tsx";
 
 export default () => {
     const [question, setQuestion] = useState<string>("");
@@ -8,6 +9,7 @@ export default () => {
     const [answer3, setAnswer3] = useState<Answer>({text: 'Answer 3', isCorrect: false, isAiGenerated: true});
     const [answer4, setAnswer4] = useState<Answer>({text: 'Answer 4', isCorrect: true, isAiGenerated: true});
     const [isLoading, setIsLoading] = useState(false);
+    const api = useApi();
     
     const save = () => {
         setIsLoading(true);

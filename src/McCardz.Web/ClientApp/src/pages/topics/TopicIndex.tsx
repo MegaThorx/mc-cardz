@@ -1,12 +1,13 @@
 import {useEffect, useState} from "react";
 import Topic from "../../models/Topic.ts";
-import api from "../../api.ts";
 import {NavLink} from "react-router";
 import {ToastType, useToast} from "../../contexts/ToastProvider.tsx";
+import {useApi} from "../../contexts/ApiProvider.tsx";
 
 export default function ({}) {
     const [topics, setTopics] = useState<Topic[]>([]);
     const toast = useToast();
+    const api = useApi();
 
     useEffect(() => {
         api.get('/api/topics')

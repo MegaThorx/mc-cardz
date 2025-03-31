@@ -1,8 +1,8 @@
 ﻿import {useState} from "react";
 import {useAuth} from "../contexts/AuthProvider.tsx";
-import api from "../api.ts";
 import {useNavigate} from "react-router";
 import {ToastType, useToast} from "../contexts/ToastProvider.tsx";
+import {useApi} from "../contexts/ApiProvider.tsx";
 
 export default function ({}) {
     const [username, setUsername] = useState('');
@@ -12,6 +12,7 @@ export default function ({}) {
     const {setToken} = useAuth();
     const navigate = useNavigate();
     const toast = useToast();
+    const api = useApi();
 
     return <>
         <h1>Login with your credentials</h1>

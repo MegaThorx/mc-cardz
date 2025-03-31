@@ -1,8 +1,8 @@
-﻿import api from "../../api.ts";
-import {useEffect, useState} from "react";
+﻿import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router";
 import Topic from "../../models/Topic.ts";
 import {ToastType, useToast} from "../../contexts/ToastProvider.tsx";
+import {useApi} from "../../contexts/ApiProvider.tsx";
 
 export default () => {
     const params = useParams();
@@ -12,6 +12,7 @@ export default () => {
 
     const navigate = useNavigate();
     const toast = useToast();
+    const api = useApi();
 
     useEffect(() => {
         api.get(`api/topics/${params.topicId}`)
