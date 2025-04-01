@@ -2,11 +2,11 @@
 
 public class TokenDto
 {
-    public string Token { get; init; }
+    public string Token { get; init; } = string.Empty;
 
-    public string Id { get; init; }
+    public string Id { get; init; } = string.Empty;
 
     public DateTime Expiration { get; init; }
 
-    public IList<string> Roles { get; init; }
+    public IList<string> Roles { get; init; } = new List<string>();
 }

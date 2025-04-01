@@ -5,7 +5,7 @@ namespace McCardz.Domain.Dtos;
 
 public class QuestionCreateDto : IEntityDtoCopy<Question>
 {
-    public string Text { get; set; }
+    public string Text { get; set; } = string.Empty;
 
     public int TopicId { get; set; }
 
