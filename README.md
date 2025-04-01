@@ -21,20 +21,20 @@
   <li> <b> AI Integration</b>: Gemini </li>
 </ul>
 
-## Running the project
+## Running the Project
 
-### Run migrations
+### Run Migrations
 
 `cd src/McCardz.Infrastructure` <br>
 `dotnet ef database update -s ../McCardz.API`
 
-### Run the frontend project
+### Run the Frontend Project
 
 `cd src/McCardz.Web/ClientApp` <br>
 `npm install` <br>
 `npm run dev`
 
-### Run the backend project
+### Run the Backend Project
 
 `dotnet run --project src/McCardz.API`
 
