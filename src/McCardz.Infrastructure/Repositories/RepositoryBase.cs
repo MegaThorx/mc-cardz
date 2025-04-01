@@ -8,8 +8,8 @@ public abstract class
     RepositoryBase<TEntity, TEntityCreateDto, TEntityUpdateDto> : IRepository<TEntity, TEntityCreateDto,
     TEntityUpdateDto>
     where TEntity : class, IEntity, new()
-    where TEntityCreateDto : IEntityDtoMap<TEntity>
-    where TEntityUpdateDto : IEntityDtoMap<TEntity>
+    where TEntityCreateDto : IEntityDtoCopy<TEntity>
+    where TEntityUpdateDto : IEntityDtoCopy<TEntity>
 {
     protected readonly ApplicationDbContext Context;
 
@@ -26,7 +26,7 @@ public abstract class
     public async Task<TEntity> AddAsync(TEntityCreateDto entity)
     {
         var instance = new TEntity();
-        entity.MapTo(instance);
+        entity.CopyTo(instance);
         Context.Set<TEntity>().Add(instance);
         await Context.SaveChangesAsync();
         return instance;
@@ -44,7 +44,7 @@ public abstract class
         if (instance is null)
             throw new ArgumentException("Entity does not exist.");
 
-        entity.MapTo(instance);
+        entity.CopyTo(instance);
         await Context.SaveChangesAsync();
         return instance;
     }

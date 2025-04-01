@@ -3,11 +3,11 @@ using McCardz.Domain.Repositories;
 
 namespace McCardz.Domain.Dtos;
 
-public class TopicCreateDto : IEntityDtoMap<Topic>
+public class TopicCreateDto : IEntityDtoCopy<Topic>
 {
     public string Name { get; set; }
 
-    public void MapTo(Topic entity)
+    public void CopyTo(Topic entity)
     {
         entity.Name = Name;
     }

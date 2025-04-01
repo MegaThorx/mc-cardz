@@ -3,7 +3,7 @@ using McCardz.Domain.Repositories;
 
 namespace McCardz.Domain.Dtos;
 
-public class AnswerCreateDto : IEntityDtoMap<Answer>
+public class AnswerCreateDto : IEntityDtoCopy<Answer>
 {
     public string Text { get; set; }
 
@@ -14,7 +14,7 @@ public class AnswerCreateDto : IEntityDtoMap<Answer>
     public int QuestionId { get; set; }
 
 
-    public void MapTo(Answer entity)
+    public void CopyTo(Answer entity)
     {
         entity.Text = Text;
         entity.IsCorrect = IsCorrect;

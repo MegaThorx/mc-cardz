@@ -2,8 +2,8 @@
 
 public interface IRepository<TEntity, TEntityCreateDto, TEntityUpdateDto>
     where TEntity : class, IEntity, new()
-    where TEntityCreateDto : IEntityDtoMap<TEntity>
-    where TEntityUpdateDto : IEntityDtoMap<TEntity>
+    where TEntityCreateDto : IEntityDtoCopy<TEntity>
+    where TEntityUpdateDto : IEntityDtoCopy<TEntity>
 {
     Task<IReadOnlyCollection<TEntity>> FindAllAsync();
 
