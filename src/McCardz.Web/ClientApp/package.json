@@ -10,8 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@headlessui/react": "^2.2.0",
-    "@heroicons/react": "^2.2.0",
     "@microsoft/signalr": "^8.0.7",
     "@popperjs/core": "^2.11.8",
     "axios": "^1.8.4",
