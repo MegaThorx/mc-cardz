@@ -1,5 +1,5 @@
-﻿using McCardz.Domain.Models;
-using McCardz.Domain.Dtos;
+﻿using McCardz.Domain.Dtos;
+using McCardz.Domain.Models;
 using McCardz.Domain.Repositories;
 using McCardz.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

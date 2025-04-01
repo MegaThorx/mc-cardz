@@ -8,26 +8,28 @@ namespace McCardz.Infrastructure.Services;
 
 public class GeminiAiService : IAiService
 {
-    private readonly HttpClient _httpClient;
     private readonly IConfiguration _configuration;
+    private readonly HttpClient _httpClient;
 
     public GeminiAiService(HttpClient httpClient, IConfiguration configuration)
     {
         _httpClient = httpClient;
         _configuration = configuration;
     }
-    
+
     public async Task<string> GetAiResponseAsync(string prompt)
     {
         var geminiRequest = new GeminiRequest
         {
-            Contents = [
+            Contents =
+            [
                 new GeminiRequestContent
                 {
-                    Parts = [
+                    Parts =
+                    [
                         new GeminiRequestPart
                         {
-                            Text = prompt,
+                            Text = prompt
                         }
                     ]
                 }
@@ -35,12 +37,13 @@ public class GeminiAiService : IAiService
         };
 
         var body = JsonSerializer.Serialize(geminiRequest);
-        
-        var request = new HttpRequestMessage(HttpMethod.Post, $"{_configuration.GetValue<string>("Gemini:Url")}?key={_configuration.GetValue<string>("Gemini:Key")}");
+
+        var request = new HttpRequestMessage(HttpMethod.Post,
+            $"{_configuration.GetValue<string>("Gemini:Url")}?key={_configuration.GetValue<string>("Gemini:Key")}");
         request.Content = new StringContent(body, Encoding.UTF8, "application/json");
         var result = await _httpClient.SendAsync(request);
         var response = JsonSerializer.Deserialize<GeminiResponse>(await result.Content.ReadAsStringAsync());
-        
+
         return response?.Candidates.First().Content.Parts.First().Text ?? string.Empty;
     }
 }

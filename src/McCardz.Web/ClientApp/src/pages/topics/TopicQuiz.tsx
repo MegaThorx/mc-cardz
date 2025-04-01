@@ -15,7 +15,7 @@ export default () => {
 
     const [checkedAnswers, setCheckedAnswers] = useState<string[]>([]);
     const [correctAnswers, setCorrectAnswers] = useState<string[]>([]);
-    
+
     const toast = useToast();
     const {api} = useApi();
 
@@ -37,7 +37,7 @@ export default () => {
                 .catch(() => toast(ToastType.Danger, 'Unable to fetch answers'));
         }
     }, [questionIndex, questions]);
-    
+
     if (topic === null || questions.length === 0 || answers.length === 0) {
         return <>
             <h1>Quiz Topic</h1>
@@ -47,32 +47,36 @@ export default () => {
             </div>
         </>;
     }
-    
+
     if (questionIndex >= questions.length) {
         return <>
             <h1>Quiz: {topic?.name}</h1>
             <span>You have answered all questions!</span>
         </>
     }
-    
+
     return <>
         <h1>Quiz: {topic?.name}</h1>
         <h2 className="mb-3">{questions[questionIndex].text}</h2>
         <form onSubmit={(event) => {
             event.preventDefault();
-            
+
             setCorrectAnswers(answers.filter(item => item.isCorrect).map(item => item.id));
         }}>
             {answers.map((answer) => (
                 <div className="form-check" key={answer.id}>
-                    <input className="form-check-input" type="checkbox" id={`answer-${answer.id}`} disabled={correctAnswers.length > 0} checked={checkedAnswers.includes(answer.id)} onChange={(event) => {
-                        if (event.target.checked) {
-                            setCheckedAnswers([...checkedAnswers, answer.id]);
-                        } else {
-                            setCheckedAnswers(checkedAnswers.filter((item) => item !== answer.id));
-                        }
-                    }} />
-                    <label className={"form-check-label " + (correctAnswers.length > 0 ? (correctAnswers.includes(answer.id) ? "text-success": "text-danger") : "")} htmlFor={`answer-${answer.id}`}>
+                    <input className="form-check-input" type="checkbox" id={`answer-${answer.id}`}
+                           disabled={correctAnswers.length > 0} checked={checkedAnswers.includes(answer.id)}
+                           onChange={(event) => {
+                               if (event.target.checked) {
+                                   setCheckedAnswers([...checkedAnswers, answer.id]);
+                               } else {
+                                   setCheckedAnswers(checkedAnswers.filter((item) => item !== answer.id));
+                               }
+                           }}/>
+                    <label
+                        className={"form-check-label " + (correctAnswers.length > 0 ? (correctAnswers.includes(answer.id) ? "text-success" : "text-danger") : "")}
+                        htmlFor={`answer-${answer.id}`}>
                         {answer.text}
                     </label>
                 </div>

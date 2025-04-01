@@ -19,11 +19,11 @@ const ApiProvider = ({children}: PropsWithChildren) => {
     const [connection, setConnection] = useState<signalR.HubConnection | null>(null);
     const [event] = useState(new CustomEvent("signalR"));
     const pub = usePub();
-    
+
     const api = axios.create({
         baseURL: baseUrl
     });
-    
+
     const {setToken} = useAuth();
     const navigate = useNavigate();
     const sendMessage = (identifier: string, message: string) => {
@@ -49,7 +49,7 @@ const ApiProvider = ({children}: PropsWithChildren) => {
             connection.start();
         }
     }, [connection, event]);
-    
+
     api.interceptors.request.use(
         (config) => {
             const token = localStorage.getItem('token');

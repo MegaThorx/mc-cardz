@@ -4,8 +4,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace McCardz.Infrastructure.Repositories;
 
-public abstract class RepositoryBase<TEntity, TEntityCreateDto, TEntityUpdateDto> : IRepository<TEntity, TEntityCreateDto, TEntityUpdateDto> 
-    where TEntity : class, IEntity, new() 
+public abstract class
+    RepositoryBase<TEntity, TEntityCreateDto, TEntityUpdateDto> : IRepository<TEntity, TEntityCreateDto,
+    TEntityUpdateDto>
+    where TEntity : class, IEntity, new()
     where TEntityCreateDto : IEntityDtoMap<TEntity>
     where TEntityUpdateDto : IEntityDtoMap<TEntity>
 {

@@ -1,8 +1,8 @@
 ﻿namespace McCardz.Domain.Repositories;
 
-public interface IRepository<TEntity, TEntityCreateDto, TEntityUpdateDto> 
-    where TEntity : class, IEntity, new() 
-    where TEntityCreateDto : IEntityDtoMap<TEntity> 
+public interface IRepository<TEntity, TEntityCreateDto, TEntityUpdateDto>
+    where TEntity : class, IEntity, new()
+    where TEntityCreateDto : IEntityDtoMap<TEntity>
     where TEntityUpdateDto : IEntityDtoMap<TEntity>
 {
     Task<IReadOnlyCollection<TEntity>> FindAllAsync();

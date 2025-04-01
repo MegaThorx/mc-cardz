@@ -13,7 +13,6 @@ erDiagram
         bool isAiGenerated
     }
 
-    USERS ||--|{ TOPICS : ""
     TOPICS ||--|{ QUESTIONS : ""
     QUESTIONS ||--|{ ANSWERS : ""
 ```

@@ -16,10 +16,10 @@ export default function ({}) {
         <form className="col-6" onSubmit={(event) => {
             event.preventDefault();
             api.post('/api/auth/register', {
-                    username: username,
-                    email: email,
-                    password: password
-                })
+                username: username,
+                email: email,
+                password: password
+            })
                 .then((response) => {
                     console.log(response);
                     navigate('/login');

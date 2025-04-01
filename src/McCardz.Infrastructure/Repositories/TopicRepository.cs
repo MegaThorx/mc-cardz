@@ -2,7 +2,6 @@
 using McCardz.Domain.Models;
 using McCardz.Domain.Repositories;
 using McCardz.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace McCardz.Infrastructure.Repositories;
 

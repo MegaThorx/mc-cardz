@@ -1,7 +1,6 @@
 ﻿using McCardz.Domain.Dtos;
 using McCardz.Domain.Models;
 using McCardz.Domain.Repositories;
-using McCardz.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,8 +11,8 @@ namespace McCardz.API.Controllers;
 [Authorize]
 public class QuestionsController : ControllerBase
 {
-    private readonly IQuestionRepository _questionRepository;
     private readonly IAnswerRepository _answersRepository;
+    private readonly IQuestionRepository _questionRepository;
 
     public QuestionsController(IQuestionRepository questionRepository, IAnswerRepository answersRepository)
     {
@@ -45,7 +44,7 @@ public class QuestionsController : ControllerBase
     [HttpGet("{id}/answers")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<IEnumerable<Answer>>> GetAllAnswers(int id) 
+    public async Task<ActionResult<IEnumerable<Answer>>> GetAllAnswers(int id)
     {
         var question = await _questionRepository.FindByIdAsync(id);
 
@@ -64,7 +63,7 @@ public class QuestionsController : ControllerBase
     {
         var newQuestion = await _questionRepository.AddAsync(question);
 
-        return CreatedAtAction(nameof(Get), new { id = newQuestion.Id}, newQuestion);
+        return CreatedAtAction(nameof(Get), new { id = newQuestion.Id }, newQuestion);
     }
 
     [HttpPut("{id}")]

@@ -4,8 +4,10 @@ export default function () {
         <h3>» Learn smarter with AI-powered flashcards! «</h3>
         <hr className="mt-4"/>
         <h4>» About «</h4>
-        <p className="mt-3 ms-3">MC Cardz is an AI-powered learning platform designed to enhance multiple-choice quizzes by automatically generating plausible answers alongside the correct one. 
-            <br/>The goal is to create a more effective and engaging study experience by leveraging artificial intelligence to craft challenging and realistic answer choices.</p>
+        <p className="mt-3 ms-3">MC Cardz is an AI-powered learning platform designed to enhance multiple-choice quizzes
+            by automatically generating plausible answers alongside the correct one.
+            <br/>The goal is to create a more effective and engaging study experience by leveraging artificial
+            intelligence to craft challenging and realistic answer choices.</p>
         <hr className="mt-4"/>
         <h4>» Features «</h4>
         <ul className="mt-3 ms-3 list-unstyled">

@@ -1,7 +1,6 @@
 ﻿using McCardz.Domain.Dtos;
 using McCardz.Domain.Models;
 using McCardz.Domain.Repositories;
-using McCardz.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

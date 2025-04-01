@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace McCardz.API.Hubs;
 
-
 public interface IAiHub
 {
     Task ReceiveMessage(string identifier, string answer);
 }
+
 public class AiHub : Hub
 {
     private readonly IAiService _aiService;

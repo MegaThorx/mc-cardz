@@ -16,7 +16,7 @@ export default () => {
     const toast = useToast();
     const navigate = useNavigate();
     const {api} = useApi();
-        
+
     const save = (event: any) => {
         event.preventDefault();
         setIsLoading(true);
@@ -24,41 +24,41 @@ export default () => {
             topicId: params.topicId,
             text: question,
         })
-        .then((response) => {
-            const questionId = response.data.id;
+            .then((response) => {
+                const questionId = response.data.id;
 
-            axios.all([
-                api.post('/api/answers', {
-                    questionId: questionId,
-                    text: answer1.text,
-                    isCorrect: answer1.isCorrect,
-                    isAiGenerated: answer1.isAiGenerated,
-                }),
-                api.post('/api/answers', {
-                    questionId: questionId,
-                    text: answer2.text,
-                    isCorrect: answer2.isCorrect,
-                    isAiGenerated: answer2.isAiGenerated,
-                }),
-                api.post('/api/answers', {
-                    questionId: questionId,
-                    text: answer3.text,
-                    isCorrect: answer3.isCorrect,
-                    isAiGenerated: answer3.isAiGenerated,
-                }),
-                api.post('/api/answers', {
-                    questionId: questionId,
-                    text: answer4.text,
-                    isCorrect: answer4.isCorrect,
-                    isAiGenerated: answer4.isAiGenerated,
-                })
-            ])
-            .then(() => navigate(`/topics/${params.topicId}`))
-            .catch(() => toast(ToastType.Danger, "Failed to save answers"));
-            
-        }).catch(() => toast(ToastType.Danger, "Failed to save question"));
+                axios.all([
+                    api.post('/api/answers', {
+                        questionId: questionId,
+                        text: answer1.text,
+                        isCorrect: answer1.isCorrect,
+                        isAiGenerated: answer1.isAiGenerated,
+                    }),
+                    api.post('/api/answers', {
+                        questionId: questionId,
+                        text: answer2.text,
+                        isCorrect: answer2.isCorrect,
+                        isAiGenerated: answer2.isAiGenerated,
+                    }),
+                    api.post('/api/answers', {
+                        questionId: questionId,
+                        text: answer3.text,
+                        isCorrect: answer3.isCorrect,
+                        isAiGenerated: answer3.isAiGenerated,
+                    }),
+                    api.post('/api/answers', {
+                        questionId: questionId,
+                        text: answer4.text,
+                        isCorrect: answer4.isCorrect,
+                        isAiGenerated: answer4.isAiGenerated,
+                    })
+                ])
+                    .then(() => navigate(`/topics/${params.topicId}`))
+                    .catch(() => toast(ToastType.Danger, "Failed to save answers"));
+
+            }).catch(() => toast(ToastType.Danger, "Failed to save question"));
     };
-    
+
     return <>
         <h1>Create a Question</h1>
         <form onSubmit={save}>
@@ -68,10 +68,10 @@ export default () => {
                        onChange={(event) => setQuestion(event.target.value)}/>
             </div>
 
-            <AnswerInput question={question} name="answer-1" title="Answer 1" answer={answer1} setAnswer={setAnswer1} />
-            <AnswerInput question={question} name="answer-2" title="Answer 2" answer={answer2} setAnswer={setAnswer2} />
-            <AnswerInput question={question} name="answer-3" title="Answer 3" answer={answer3} setAnswer={setAnswer3} />
-            <AnswerInput question={question} name="answer-4" title="Answer 4" answer={answer4} setAnswer={setAnswer4} />
+            <AnswerInput question={question} name="answer-1" title="Answer 1" answer={answer1} setAnswer={setAnswer1}/>
+            <AnswerInput question={question} name="answer-2" title="Answer 2" answer={answer2} setAnswer={setAnswer2}/>
+            <AnswerInput question={question} name="answer-3" title="Answer 3" answer={answer3} setAnswer={setAnswer3}/>
+            <AnswerInput question={question} name="answer-4" title="Answer 4" answer={answer4} setAnswer={setAnswer4}/>
 
             <button type="submit" className="btn btn-primary" disabled={isLoading}>
                 {isLoading ? <span className="spinner-border spinner-border-sm me-2" aria-hidden="true"></span> : null}

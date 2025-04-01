@@ -12,13 +12,13 @@ export default () => {
     const navigate = useNavigate();
     const toast = useToast();
     const {api} = useApi();
-    
+
     useEffect(() => {
         api.get(`api/questions/${params.questionId}`)
             .then((response) => setQuestion(response.data))
             .catch(() => toast(ToastType.Danger, 'Unable to fetch topic'));
     }, [params.questionId]);
-    
+
     if (!question) {
         return <>
             <h1>Delete Question</h1>
@@ -28,7 +28,7 @@ export default () => {
             </div>
         </>;
     }
-    
+
     return <>
         <h1>Delete Question</h1>
         <form className="col-6" onSubmit={(event) => {
@@ -51,5 +51,5 @@ export default () => {
                 Delete
             </button>
         </form>
-    </>  
+    </>
 };

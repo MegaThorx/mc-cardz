@@ -10,8 +10,8 @@ namespace McCardz.API.Controllers;
 [Route("api/auth")]
 public class AuthenticationController : ControllerBase
 {
-    private readonly UserManager<ApplicationUser> _userManager;
     private readonly ITokenService _tokenService;
+    private readonly UserManager<ApplicationUser> _userManager;
 
     public AuthenticationController(UserManager<ApplicationUser> userManager, ITokenService tokenService)
     {
@@ -20,16 +20,14 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<ResponseDto>> Register([FromBody]RegisterDto register)
+    public async Task<ActionResult<ResponseDto>> Register([FromBody] RegisterDto register)
     {
         if (await _userManager.FindByNameAsync(register.Username) != null)
-        {
             return BadRequest(new ResponseDto
             {
                 Status = "Error",
                 Message = "Username already taken."
             });
-        }
 
         var user = new ApplicationUser
         {
@@ -42,14 +40,12 @@ public class AuthenticationController : ControllerBase
         var result = await _userManager.CreateAsync(user, register.Password);
 
         if (!result.Succeeded)
-        {
             return BadRequest(new ResponseDto
             {
                 Status = "Error",
                 Message = string.Join('\n', result.Errors.Select(e => e.Description))
             });
-        }
-        
+
         return new ResponseDto
         {
             Status = "Success",
@@ -62,9 +58,7 @@ public class AuthenticationController : ControllerBase
     {
         var user = await _userManager.FindByNameAsync(model.Username);
         if (user is not null && await _userManager.CheckPasswordAsync(user, model.Password))
-        {
             return Ok(await _tokenService.GenerateAccessTokenAsync(user));
-        }
 
         return Unauthorized(new ResponseDto
         {

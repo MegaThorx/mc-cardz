@@ -1,3 +1,4 @@
+using System.Text;
 using McCardz.API.Hubs;
 using McCardz.Application.Services;
 using McCardz.Domain.Models;
@@ -10,7 +11,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,8 +22,8 @@ builder.Services.AddHttpClient();
 var spaOrigins = "_spaOrigins";
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: spaOrigins,
-        policy  =>
+    options.AddPolicy(spaOrigins,
+        policy =>
         {
             policy.WithOrigins("http://localhost:8000"); // TODO: Maybe load from configuration?
             policy.WithMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
@@ -82,11 +82,12 @@ builder.Services.AddAuthentication(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["JwtSettings:Secret"]!)),
+        IssuerSigningKey =
+            new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["JwtSettings:Secret"]!)),
         ValidateIssuer = false,
         ValidateAudience = false,
         RequireExpirationTime = false,
-        ValidateLifetime = true,
+        ValidateLifetime = true
     };
 });
 

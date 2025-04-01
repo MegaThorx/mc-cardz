@@ -33,11 +33,14 @@ export default () => {
         <NavLink to={`/topics/${params.topicId}/quiz`} className="btn btn-primary my-4">Quiz Me</NavLink>
         <div className="d-flex justify-content-between align-items-center">
             <h2>Questions</h2>
-            <NavLink to={`/topics/${params.topicId}/question`} className="btn btn-sm btn-primary me-2">Add Question</NavLink>
+            <NavLink to={`/topics/${params.topicId}/question`} className="btn btn-sm btn-primary me-2">Add
+                Question</NavLink>
         </div>
         <ul>
             {questions.map((question) => (
-                <li key={question.id} className="my-3"><NavLink to={`/questions/${question.id}`} className="text-decoration-none">{question.text}</NavLink></li>
+                <li key={question.id} className="my-3"><NavLink to={`/questions/${question.id}`}
+                                                                className="text-decoration-none">{question.text}</NavLink>
+                </li>
             ))}
         </ul>
     </>;

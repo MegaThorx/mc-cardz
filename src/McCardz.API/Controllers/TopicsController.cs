@@ -1,10 +1,8 @@
-﻿using McCardz.API.Models;
-using McCardz.Domain.Dtos;
+﻿using McCardz.Domain.Dtos;
 using McCardz.Domain.Models;
 using McCardz.Domain.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace McCardz.API.Controllers;
 
@@ -13,8 +11,8 @@ namespace McCardz.API.Controllers;
 [Authorize]
 public class TopicsController : ControllerBase
 {
-    private readonly ITopicRepository _topicRepository;
     private readonly IQuestionRepository _questionRepository;
+    private readonly ITopicRepository _topicRepository;
 
     public TopicsController(ITopicRepository topicRepository, IQuestionRepository questionRepository)
     {

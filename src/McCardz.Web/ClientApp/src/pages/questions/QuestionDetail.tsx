@@ -11,7 +11,7 @@ export default () => {
     const [answers, setAnswers] = useState<Answer[]>();
     const toast = useToast();
     const {api} = useApi();
-    
+
     useEffect(() => {
         api.get(`api/questions/${params.questionId}`)
             .then((response) => setQuestion(response.data))
@@ -21,7 +21,7 @@ export default () => {
             .then((response) => setAnswers(response.data))
             .catch(() => toast(ToastType.Danger, 'Unable to fetch questions'));
     }, [params.questionId]);
-    
+
     if (!question || !answers) {
         return <>
             <h1>Question</h1>
@@ -31,13 +31,15 @@ export default () => {
             </div>
         </>;
     }
-    
+
     return <>
         <div className="d-flex justify-content-between align-items-center">
             <h1>Question: {question.text}</h1>
             <div>
-                <NavLink to={`/questions/${params.questionId}/edit`} className="btn btn-sm btn-primary me-2">Edit</NavLink>
-                <NavLink to={`/questions/${params.questionId}/delete`} className="btn btn-sm btn-danger">Delete</NavLink>
+                <NavLink to={`/questions/${params.questionId}/edit`}
+                         className="btn btn-sm btn-primary me-2">Edit</NavLink>
+                <NavLink to={`/questions/${params.questionId}/delete`}
+                         className="btn btn-sm btn-danger">Delete</NavLink>
             </div>
         </div>
         <ul>
@@ -45,5 +47,5 @@ export default () => {
                 <li key={item.id} className="my-3">{item.text}</li>
             ))}
         </ul>
-    </>  
+    </>
 };

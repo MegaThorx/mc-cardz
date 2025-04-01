@@ -12,4 +12,3 @@ public class TopicUpdateDto : IEntityDtoMap<Topic>
         entity.Name = Name;
     }
 }
-
